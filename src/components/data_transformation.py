@@ -16,6 +16,8 @@ from src.utils import save_object
 
 from dataclasses import dataclass
 
+from src.components.model_trainer import ModelTrainer
+
 
 @dataclass
 class DataTransformationConfig:
@@ -151,15 +153,21 @@ class DataTransformation:
 
 if __name__ == "__main__":
 
+    from src.components.data_transformation import DataTransformation
+
     data_transformation = DataTransformation()
 
-    train_arr, test_arr, preprocessor_path, label_encoder_path = (
-        data_transformation.initiate_data_transformation(
-            validated_train_path="artifacts/validated_train.csv",
-            validated_test_path="artifacts/validated_test.csv"
-        )
+    train_arr, test_arr, _, _ = data_transformation.initiate_data_transformation(
+        validated_train_path="artifacts/validated_train.csv",
+        validated_test_path="artifacts/validated_test.csv"
     )
 
-    print("Data transformation completed successfully.")
-    print(preprocessor_path)
-    print(label_encoder_path)
+    model_trainer = ModelTrainer()
+
+    results = model_trainer.initiate_model_trainer(
+        train_array=train_arr,
+        test_array=test_arr
+    )
+
+    print("\nFinal Results")
+    print(results)
