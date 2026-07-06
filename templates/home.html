@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Churn Prediction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Customer Churn Prediction System</h1>
+
+        <p>
+            Predict whether a SaaS customer is likely to churn using machine learning.
+        </p>
+
+        <form action="{{ url_for('predict') }}" method="POST">
+
+            <h2>Customer Information</h2>
+
+                <div>
+
+                    <label for="region">Region</label>
+
+                    <select id="region" name="region" required>
+
+                        <option value="">Select Region</option>
+                        <option value="London">London</option>
+                        <option value="Scotland">Scotland</option>
+                        <option value="Wales">Wales</option>
+                        <option value="North East">North East</option>
+                        <option value="North West">North West</option>
+                        <option value="South West">South West</option>
+                        <option value="South East">South East</option>
+                        <option value="East Midlands">East Midlands</option>
+                        <option value="West Midlands">West Midlands</option>
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label for="subscription_plan">Subscription Plan</label>
+
+                    <select id="subscription_plan" name="subscription_plan" required>
+
+                        <option value="">Select Plan</option>
+
+                        <option value="Starter">Starter</option>
+                        <option value="Professional">Professional</option>
+                        <option value="Enterprise">Enterprise</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label for="contract_type">Contract Type</label>
+
+                    <select id="contract_type" name="contract_type" required>
+
+                        <option value="">Select Contract</option>
+
+                        <option value="Monthly">Monthly</option>
+                        <option value="Annual">Annual</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label for="industry">Industry</label>
+
+                    <select id="industry" name="industry" required>
+
+                        <option value="">Select Industry</option>
+                        <option value="Education">Education</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Logistics">Logistics</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Technology">Technology</option>
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label for="company_size">Company Size</label>
+
+                    <select id="company_size" name="company_size" required>
+
+                        <option value="">Select Company Size</option>
+                        <option value="Micro">Micro</option>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label for="customer_segment">Customer Segment</label>
+
+                    <select id="customer_segment" name="customer_segment" required>
+
+                        <option value="">Select Segment</option>
+
+                        <option value="SMB">SMB</option>
+                        <option value="Mid-Market">Mid-Market</option>
+                        <option value="Enterprise">Enterprise</option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label for="acquisition_channel">Acquisition Channel</label>
+
+                    <select id="acquisition_channel" name="acquisition_channel" required>
+
+                        <option value="">Select Channel</option>
+                        <option value="Direct">Direct</option>
+                        <option value="Google Ads">Google Ads</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Organic Search">Organic Search</option>
+                        <option value="Partner">Partner</option>
+                        <option value="Referral">Referral</option>
+                        
+                    </select>
+
+                </div>
+                <h2>Customer Usage & Business Metrics</h2>
+
+                <div>
+
+                    <label for="tenure_months">Tenure (Months)</label>
+
+                    <input
+                        type="number"
+                        id="tenure_months"
+                        name="tenure_months"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="monthly_logins">Monthly Logins</label>
+
+                    <input
+                        type="number"
+                        id="monthly_logins"
+                        name="monthly_logins"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="customer_satisfaction_score">
+                        Customer Satisfaction Score
+                    </label>
+
+                    <input
+                        type="number"
+                        id="customer_satisfaction_score"
+                        name="customer_satisfaction_score"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="years_in_business">
+                        Years in Business
+                    </label>
+
+                    <input
+                        type="number"
+                        id="years_in_business"
+                        name="years_in_business"
+                        min="0"
+                        required
+                    >
+
+                </div>
+                <div>
+
+                    <label for="monthly_subscription_fee_gbp">
+                        Monthly Subscription Fee (£)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="monthly_subscription_fee_gbp"
+                        name="monthly_subscription_fee_gbp"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="discount_percentage">
+                        Discount Percentage
+                    </label>
+
+                    <input
+                        type="number"
+                        id="discount_percentage"
+                        name="discount_percentage"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="employee_count">
+                        Employee Count
+                    </label>
+
+                    <input
+                        type="number"
+                        id="employee_count"
+                        name="employee_count"
+                        min="1"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="active_users">
+                        Active Users
+                    </label>
+
+                    <input
+                        type="number"
+                        id="active_users"
+                        name="active_users"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="feature_usage_score">
+                        Feature Usage Score
+                    </label>
+
+                    <input
+                        type="number"
+                        id="feature_usage_score"
+                        name="feature_usage_score"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="avg_session_duration_minutes">
+                        Average Session Duration (Minutes)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="avg_session_duration_minutes"
+                        name="avg_session_duration_minutes"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="projects_created">
+                        Projects Created
+                    </label>
+
+                    <input
+                        type="number"
+                        id="projects_created"
+                        name="projects_created"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="integrations_enabled">
+                        Integrations Enabled
+                    </label>
+
+                    <input
+                        type="number"
+                        id="integrations_enabled"
+                        name="integrations_enabled"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="support_tickets_last_6m">
+                        Support Tickets (Last 6 Months)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="support_tickets_last_6m"
+                        name="support_tickets_last_6m"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="avg_resolution_time_hours">
+                        Average Resolution Time (Hours)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="avg_resolution_time_hours"
+                        name="avg_resolution_time_hours"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="payment_failures_last_12m">
+                        Payment Failures (Last 12 Months)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="payment_failures_last_12m"
+                        name="payment_failures_last_12m"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="email_open_rate">
+                        Email Open Rate (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="email_open_rate"
+                        name="email_open_rate"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="webinar_attendance_count">
+                        Webinar Attendance Count
+                    </label>
+
+                    <input
+                        type="number"
+                        id="webinar_attendance_count"
+                        name="webinar_attendance_count"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="monthly_recurring_revenue">
+                        Monthly Recurring Revenue (£)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="monthly_recurring_revenue"
+                        name="monthly_recurring_revenue"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="lifetime_value">
+                        Lifetime Value (£)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="lifetime_value"
+                        name="lifetime_value"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+                <div>
+
+                    <button type="submit">
+                        Predict Customer Churn
+                    </button>
+
+                </div>
+                
+                {% if prediction %}
+
+                <div class="prediction-card">
+
+                    <h2>Prediction Result</h2>
+
+                    <h3>{{ prediction }}</h3>
+
+                    <p><strong>Confidence:</strong> {{ confidence }}%</p>
+
+                </div>
+
+                {% endif %}
+
+
+        </form>
+
+    </div>
+
+</body>
+
+
+</html>
